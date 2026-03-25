@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Builder — Dude World</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.hero {
+  text-align: center;
+  margin-bottom: 40px;
+  animation: dw-fadeDown 0.7s ease both;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 900;
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero p { color: var(--muted); font-size: 0.95rem; max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+.lang-toggle {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.lang-btn {
+  padding: 8px 24px;
+  border: 2px solid var(--ink);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--ink);
+}
+.lang-btn.active { background: var(--ink); color: var(--gold); }
+.lang-btn:hover:not(.active) { background: var(--gold-light); }
+
+.tabs {
+  display: flex;
+  border: 2px solid var(--ink);
+  width: fit-content;
+  margin: 0 auto 36px;
+  overflow: hidden;
+}
+.tab {
+  padding: 11px 28px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+  border-right: 2px solid var(--ink);
+}
+.tab:last-child { border-right: none; }
+.tab.active { background: var(--ink); color: var(--gold); }
+.tab:hover:not(.active) { background: var(--gold-light); color: var(--ink); }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-title .num {
+  background: var(--gold);
+  color: var(--ink);
+  width: 28px; height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  flex-shrink: 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-grid.single { grid-template-columns: 1fr; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field.span2 { grid-column: 1 / -1; }
+
+.output-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+@media (max-width: 600px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .field.span2 { grid-column: 1; }
+  .tabs { width: 100%; }
+  .tab { flex: 1; padding: 10px 12px; font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="dw-header">
+  <a href="../index.html" class="dw-logo">Dude<span>World</span></a>
+  <div class="dw-header-right">
+    <span class="dw-badge">📄 CV Builder</span>
+    <a href="https://youtube.com/@dudegamer410" target="_blank" class="dw-yt-link">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.6 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.3.6 9.3.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+      @dudegamer410
+    </a>
+  </div>
+</header>
+
+<div class="dw-container">
+
+  <a href="../index.html" class="dw-back">← Back to All Tools</a>
+
+  <div class="hero">
+    <h1>CV & Cover Letter <em>Builder</em></h1>
+    <p>তোমার তথ্য দাও — AI তোমার জন্য professional CV ও Cover Letter তৈরি করে দেবে।</p>
+  </div>
+
+  <!-- LANGUAGE -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')" id="lang-en">🇬🇧 English</button>
+    <button class="lang-btn" onclick="setLang('bn')" id="lang-bn">🇧🇩 বাংলা</button>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('cv')">📄 CV Builder</button>
+    <button class="tab" onclick="switchTab('cl')">✉️ Cover Letter</button>
+  </div>
+
+  <!-- ═══ CV PANEL ═══ -->
+  <div class="panel active" id="panel-cv">
+
+    <div class="dw-tips"><strong>💡 টিপস:</strong> যত বেশি তথ্য দেবে, CV তত ভালো হবে।</div>
+
+    <div class="dw-card">
+      <div class="card-title"><span class="num">1</span>Personal Information</div>
+      <div class="form-grid">
+        <div class="field"><label class="dw-label">Full Name *</label><input class="dw-input" id="cv-name" placeholder="Mohammad Sajib Islam"></div>
+        <div class="field"><label class="dw-label">Job Title</label><input class="dw-input" id="cv-title" placeholder="Junior Web Developer"></div>
+        <div class="field"><label class="dw-label">Email</label><input class="dw-input" id="cv-email" type="email" placeholder="sajib@email.com"></div>
+        <div class="field"><label class="dw-label">Phone</label><input class="dw-input" id="cv-phone" placeholder="+880 1XXX-XXXXXX"></div>
+        <div class="field"><label class="dw-label">Location</label><input class="dw-input" id="cv-location" placeholder="Dhaka, Bangladesh"></div>
+        <div class="field"><label class="dw-label">Portfolio / LinkedIn</label><input class="dw-input" id="cv-link" placeholder="linkedin.com/in/sajib"></div>
+      </div>
+    </div>
+
+    <div class="dw-card">
+      <div class="card-title"><span class="num">2</span>Professional Summary</div>
+      <div class="field"><label class="dw-label">About Yourself</label><textarea class="dw-textarea" id="cv-summary" placeholder="আমি একজন passionate self-learner..."></textarea></div>
+    </div>
+
+    <div class="dw-card">
+      <div class="card-title"><span class="num">3</span>Education</div>
+      <div class="form-grid">
+        <div class="field span2"><label class="dw-label">Degree & Institution</label><input class="dw-input" id="cv-edu" placeholder="HSC — ABC College, Dhaka (2023)"></div>
+        <div class="field span2"><label class="dw-label">Courses / Certifications</label><textarea class="dw-textarea" id="cv-courses" placeholder="Python Programming — Udemy (2024)"></textarea></div>
+      </div>
+    </div>
+
+    <div class="dw-card">
+      <div class="card-title"><span class="num">4</span>Skills</div>
+      <div class="form-grid">
+        <div class="field span2"><label class="dw-label">Technical Skills</label><input class="dw-input" id="cv-skills-tech" placeholder="Python, HTML, CSS, Linux, Termux"></div>
+        <div class="field span2"><label class="dw-label">Soft Skills</label><input class="dw-input" id="cv-skills-soft" placeholder="Problem solving, Quick learner, Communication"></div>
+      </div>
+    </div>
+
+    <div class="dw-card">
+      <div class="card-title"><span class="num">5</span>Experience & Projects</div>
+      <div class="form-grid single">
+        <div class="field"><label class="dw-label">Work Experience</label><textarea class="dw-textarea" id="cv-exp" placeholder="Fresher / No Experience — অথবা experience লিখো..."></textarea></div>
+        <div class="field"><label class="dw-label">Projects</label><textarea class="dw-textarea" id="cv-projects" placeholder="Markus AI Chatbot — Python terminal chatbot..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="dw-card">
+      <div class="card-title"><span class="num">6</span>Languages & Extras</div>
+      <div class="form-grid">
+        <div class="field"><label class="dw-label">Languages Known</label><input class="dw-input" id="cv-langs" placeholder="Bangla (Native), English (Intermediate)"></div>
+        <div class="field"><label class="dw-label">Interests / Hobbies</label><input class="dw-input" id="cv-hobbies" placeholder="Gaming, Programming, Content Creation"></div>
+      </div>
+    </div>
+
+    <button class="dw-btn-primary" id="btn-cv" onclick="generateCV()">✦ Generate My CV</button>
+  </div>
+
+  <!-- ═══ COVER LETTER PANEL ═══ -->
+  <div class="panel" id="panel-cl">
+
+    <div class="dw-tips"><strong>💡 টিপস:</strong> Company ও position এর নাম দিলে cover letter অনেক ভালো হবে।</div>
+
+    <div class="dw-card">
+      <div class="card-title"><span class="num">1</span>Your Information</div>
+      <div class="form-grid">
+        <div class="field"><label class="dw-label">Full Name *</label><input class="dw-input" id="cl-name" placeholder="Mohammad Sajib Islam"></div>
+        <div class="field"><label class="dw-label">Role Applying For</label><input class="dw-input" id="cl-role" placeholder="Junior Python Developer"></div>
+        <div class="field"><label class="dw-label">Email</label><input class="dw-input" id="cl-email" placeholder="sajib@email.com"></div>
+        <div class="field"><label class="dw-label">Phone</label><input class="dw-input" id="cl-phone" placeholder="+880 1XXX-XXXXXX"></div>
+      </div>
+    </div>
+
+    <div class="dw-card">
+      <div class="card-title"><span class="num">2</span>Job Details</div>
+      <div class="form-grid">
+        <div class="field"><label class="dw-label">Company Name</label><input class="dw-input" id="cl-company" placeholder="TechBD Solutions Ltd."></div>
+        <div class="field"><label class="dw-label">Hiring Manager (optional)</label><input class="dw-input" id="cl-manager" placeholder="Mr. Karim / HR Team"></div>
+        <div class="field span2"><label class="dw-label">Job Requirements</label><textarea class="dw-textarea" id="cl-job-desc" placeholder="Python developer needed. Must know Django..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="dw-card">
+      <div class="card-title"><span class="num">3</span>Your Background</div>
+      <div class="form-grid single">
+        <div class="field"><label class="dw-label">Your Key Skills</label><textarea class="dw-textarea" id="cl-skills" placeholder="Python, self-learning, built AI chatbot..."></textarea></div>
+        <div class="field"><label class="dw-label">Why This Company?</label><textarea class="dw-textarea" id="cl-why" placeholder="আমি এই company তে join করতে চাই কারণ..."></textarea></div>
+        <div class="field">
+          <label class="dw-label">Tone</label>
+          <select class="dw-select" id="cl-tone">
+            <option value="professional">Professional & Formal</option>
+            <option value="confident">Confident & Direct</option>
+            <option value="warm">Warm & Enthusiastic</option>
+            <option value="fresh">Fresh Graduate Style</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button class="dw-btn-primary" id="btn-cl" onclick="generateCoverLetter()">✦ Generate Cover Letter</button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="dw-output-box" id="output-box">
+    <div class="dw-output-header">
+      <div class="dw-output-title" id="output-title">Output</div>
+      <div class="output-actions">
+        <button class="dw-btn-sm" id="btn-copy" onclick="copyOutput()">Copy</button>
+        <button class="dw-btn-sm" onclick="downloadOutput()">Download</button>
+      </div>
+    </div>
+    <div class="dw-output-content" id="output-content"></div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="dw-footer">
+  <div class="dw-footer-copy">© 2025 DudeWorld — Made with ❤️ in Bangladesh 🇧🇩</div>
+  <a href="https://youtube.com/@dudegamer410" target="_blank" class="dw-footer-yt">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.6 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.3.6 9.3.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+    @dudegamer410
+  </a>
+</footer>
+
+<script>
+let currentLang = 'en';
+let currentOutput = '';
+
+function setLang(l) {
+  currentLang = l;
+  document.getElementById('lang-en').classList.toggle('active', l === 'en');
+  document.getElementById('lang-bn').classList.toggle('active', l === 'bn');
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && tab === 'cv') || (i === 1 && tab === 'cl'));
+  });
+  document.getElementById('panel-cv').classList.toggle('active', tab === 'cv');
+  document.getElementById('panel-cl').classList.toggle('active', tab === 'cl');
+  document.getElementById('output-box').classList.remove('visible');
+}
+
+function setLoading(id, on) {
+  const b = document.getElementById(id);
+  b.disabled = on;
+  if (on) b.innerHTML = '<span class="dw-spinner"></span>Generating...';
+  else b.innerHTML = id === 'btn-cv' ? '✦ Generate My CV' : '✦ Generate Cover Letter';
+}
+
+async function callClaude(prompt) {
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  const d = await r.json();
+  return d.content?.[0]?.text || 'Error generating content.';
+}
+
+async function generateCV() {
+  const name = document.getElementById('cv-name').value.trim();
+  if (!name) { alert('Please enter your name!'); return; }
+  setLoading('btn-cv', true);
+  const lang = currentLang === 'bn' ? 'Bengali (Bangla)' : 'English';
+  const i = {
+    name, title: document.getElementById('cv-title').value,
+    email: document.getElementById('cv-email').value,
+    phone: document.getElementById('cv-phone').value,
+    location: document.getElementById('cv-location').value,
+    link: document.getElementById('cv-link').value,
+    summary: document.getElementById('cv-summary').value,
+    edu: document.getElementById('cv-edu').value,
+    courses: document.getElementById('cv-courses').value,
+    st: document.getElementById('cv-skills-tech').value,
+    ss: document.getElementById('cv-skills-soft').value,
+    exp: document.getElementById('cv-exp').value,
+    proj: document.getElementById('cv-projects').value,
+    langs: document.getElementById('cv-langs').value,
+    hobbies: document.getElementById('cv-hobbies').value,
+  };
+  const prompt = `You are a professional CV writer. Create a polished, ATS-friendly CV in ${lang}. Skip empty fields gracefully.
+Name: ${i.name} | Title: ${i.title} | Email: ${i.email} | Phone: ${i.phone} | Location: ${i.location} | Link: ${i.link}
+Summary: ${i.summary} | Education: ${i.edu} | Courses: ${i.courses}
+Tech Skills: ${i.st} | Soft Skills: ${i.ss} | Experience: ${i.exp} | Projects: ${i.proj}
+Languages: ${i.langs} | Hobbies: ${i.hobbies}
+Write a complete formatted CV with clear section headers. Professional and ready to submit.`;
+  try {
+    const result = await callClaude(prompt);
+    showOutput(result, '📄 Your CV — Ready to Use');
+  } catch(e) { alert('Error. Please try again.'); }
+  setLoading('btn-cv', false);
+}
+
+async function generateCoverLetter() {
+  const name = document.getElementById('cl-name').value.trim();
+  if (!name) { alert('Please enter your name!'); return; }
+  setLoading('btn-cl', true);
+  const lang = currentLang === 'bn' ? 'Bengali (Bangla)' : 'English';
+  const toneMap = { professional:'professional and formal', confident:'confident and direct', warm:'warm and enthusiastic', fresh:'fresh graduate — eager and positive' };
+  const tone = toneMap[document.getElementById('cl-tone').value];
+  const i = {
+    name, role: document.getElementById('cl-role').value,
+    email: document.getElementById('cl-email').value,
+    phone: document.getElementById('cl-phone').value,
+    company: document.getElementById('cl-company').value,
+    manager: document.getElementById('cl-manager').value,
+    job: document.getElementById('cl-job-desc').value,
+    skills: document.getElementById('cl-skills').value,
+    why: document.getElementById('cl-why').value,
+  };
+  const prompt = `Write a compelling cover letter in ${lang} with ${tone} tone. Max 350 words.
+Applicant: ${i.name} | Role: ${i.role} | Email: ${i.email} | Phone: ${i.phone}
+Company: ${i.company} | Hiring Manager: ${i.manager}
+Job Requirements: ${i.job} | Applicant Skills: ${i.skills} | Why This Company: ${i.why}
+Include: header, salutation, attention-grabbing opener, body matching skills to requirements, why this company, strong closing with call to action, sign-off.`;
+  try {
+    const result = await callClaude(prompt);
+    showOutput(result, '✉️ Your Cover Letter — Ready to Send');
+  } catch(e) { alert('Error. Please try again.'); }
+  setLoading('btn-cl', false);
+}
+
+function showOutput(text, title) {
+  currentOutput = text;
+  document.getElementById('output-title').textContent = title;
+  document.getElementById('output-content').textContent = text;
+  const box = document.getElementById('output-box');
+  box.classList.add('visible');
+  document.getElementById('btn-copy').textContent = 'Copy';
+  document.getElementById('btn-copy').classList.remove('done');
+  setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function copyOutput() {
+  navigator.clipboard.writeText(currentOutput).then(() => {
+    const b = document.getElementById('btn-copy');
+    b.textContent = '✓ Copied!';
+    b.classList.add('done');
+    setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('done'); }, 2000);
+  });
+}
+
+function downloadOutput() {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([currentOutput], { type: 'text/plain;charset=utf-8' }));
+  a.download = 'dudeworld-cv.txt';
+  a.click();
+}
+</script>
+</body>
+</html>

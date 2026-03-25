@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dude World — Free AI Tools</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+/* ── HOMEPAGE ONLY STYLES ── */
+
+.hero {
+  text-align: center;
+  padding: 64px 20px 48px;
+  animation: dw-fadeDown 0.7s ease both;
+}
+
+.hero-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.hero h1 em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.hero-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.7;
+}
+
+.hero-yt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--ink);
+  padding: 10px 22px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.hero-yt:hover { background: var(--ink); color: var(--gold); }
+.hero-yt svg { flex-shrink: 0; }
+
+/* ── DIVIDER ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 36px;
+  animation: dw-fadeUp 0.5s 0.2s ease both;
+}
+.divider-line { flex: 1; height: 2px; background: var(--ink); }
+.divider-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── TOOLS GRID ── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  animation: dw-fadeUp 0.6s 0.3s ease both;
+}
+
+.tool-card {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  padding: 28px;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.25s;
+  transform-origin: left;
+}
+
+.tool-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+.tool-card:hover::after { transform: scaleX(1); }
+
+.tool-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.tool-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.tool-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.tool-tag {
+  display: inline-block;
+  background: var(--gold-light);
+  border: 1px solid var(--gold);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  color: var(--ink);
+  width: fit-content;
+}
+
+.tool-arrow {
+  font-size: 1.2rem;
+  color: var(--gold);
+  align-self: flex-end;
+  transition: transform 0.2s;
+}
+.tool-card:hover .tool-arrow { transform: translateX(4px); }
+
+/* ── COMING SOON CARD ── */
+.tool-card.coming-soon {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
+.tool-card.coming-soon .tool-tag {
+  background: var(--border);
+  border-color: var(--border);
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  display: flex;
+  border: 2px solid var(--ink);
+  margin: 48px 0 0;
+  animation: dw-fadeUp 0.6s 0.4s ease both;
+  background: var(--paper);
+}
+
+.stat-item {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  border-right: 2px solid var(--ink);
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+}
+
+@media (max-width: 500px) {
+  .stats-bar { flex-direction: column; }
+  .stat-item { border-right: none; border-bottom: 2px solid var(--ink); }
+  .stat-item:last-child { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="dw-header">
+  <a href="index.html" class="dw-logo">Dude<span>World</span></a>
+  <div class="dw-header-right">
+    <span class="dw-badge">✦ Free AI Tools</span>
+    <a href="https://youtube.com/@dudegamer410" target="_blank" class="dw-yt-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.6 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.3.6 9.3.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+      @dudegamer410
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">✦ Welcome to</div>
+  <h1>Dude<em>World</em><br>Free AI Tools</h1>
+  <p class="hero-sub">তোমার কাজ সহজ করার জন্য free AI tools। CV থেকে শুরু করে আরো অনেক কিছু — সব এক জায়গায়।</p>
+  <a href="https://youtube.com/@dudegamer410" target="_blank" class="hero-yt">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.6 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.3.6 9.3.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+    Watch on YouTube — @dudegamer410
+  </a>
+</div>
+
+<div class="dw-container">
+
+  <!-- TOOLS HEADING -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-text">All Tools</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- TOOLS GRID -->
+  <!-- ════════════════════════════════════════════════════
+       নতুন tool add করতে চাইলে নিচের একটা tool-card
+       copy করো, href, icon, name, desc পরিবর্তন করো।
+       ব্যস — কাজ শেষ!
+  ════════════════════════════════════════════════════ -->
+  <div class="tools-grid">
+
+    <!-- ── TOOL 1: CV Builder ── -->
+    <a href="tools/cv-builder.html" class="tool-card">
+      <div class="tool-icon">📄</div>
+      <div class="tool-name">CV & Cover Letter Builder</div>
+      <div class="tool-desc">তোমার তথ্য দাও, AI professional CV ও Cover Letter তৈরি করে দেবে। বাংলা ও English দুটোতেই।</div>
+      <div class="tool-tag">✦ AI Powered</div>
+      <div class="tool-arrow">→</div>
+    </a>
+
+    <!-- ── TOOL 2: Coming Soon ── -->
+    <div class="tool-card coming-soon">
+      <div class="tool-icon">✍️</div>
+      <div class="tool-name">Bio Generator</div>
+      <div class="tool-desc">Social media bio, Facebook about, Instagram bio — সব কিছুর জন্য perfect bio generate করো।</div>
+      <div class="tool-tag">Coming Soon</div>
+      <div class="tool-arrow">→</div>
+    </div>
+
+    <!-- ── TOOL 3: Coming Soon ── -->
+    <div class="tool-card coming-soon">
+      <div class="tool-icon">📱</div>
+      <div class="tool-name">Caption & Post Writer</div>
+      <div class="tool-desc">Facebook, Instagram, TikTok এর জন্য engaging captions ও posts লিখে নাও সেকেন্ডে।</div>
+      <div class="tool-tag">Coming Soon</div>
+      <div class="tool-arrow">→</div>
+    </div>
+
+    <!-- ── TOOL 4: Coming Soon ── -->
+    <div class="tool-card coming-soon">
+      <div class="tool-icon">📧</div>
+      <div class="tool-name">Email Writer</div>
+      <div class="tool-desc">Professional email লিখতে পারছো না? AI দিয়ে perfect email তৈরি করো এক মিনিটে।</div>
+      <div class="tool-tag">Coming Soon</div>
+      <div class="tool-arrow">→</div>
+    </div>
+
+  </div>
+  <!-- ── END TOOLS GRID ── -->
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Live Tools</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Coming Soon</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">Free</div>
+      <div class="stat-label">Always</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="dw-footer">
+  <div class="dw-footer-copy">© 2025 DudeWorld — Made with ❤️ in Bangladesh 🇧🇩</div>
+  <a href="https://youtube.com/@dudegamer410" target="_blank" class="dw-footer-yt">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.6 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.3.6 9.3.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+    YouTube: @dudegamer410
+  </a>
+</footer>
+
+</body>
+</html>
