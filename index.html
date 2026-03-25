@@ -4,16 +4,134 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dude World — Free AI Tools</title>
-<link rel="stylesheet" href="assets/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ── HOMEPAGE ONLY STYLES ── */
 
+/* ── VARIABLES ── */
+:root {
+  --ink:        #0d0d0d;
+  --cream:      #f5f0e8;
+  --gold:       #c9a84c;
+  --gold-light: #e8d49a;
+  --rust:       #b85c38;
+  --sage:       #4a6741;
+  --paper:      #faf7f2;
+  --border:     #d8cfc0;
+  --muted:      #7a7060;
+}
+
+/* ── RESET ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── BODY ── */
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(74,103,65,0.07) 0%, transparent 60%);
+}
+
+/* ── HEADER ── */
+.dw-header {
+  border-bottom: 2px solid var(--ink);
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 0 var(--gold);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.dw-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.dw-logo span { color: var(--gold); }
+.dw-header-right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.dw-yt-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--ink);
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 7px 14px;
+  transition: all 0.2s;
+}
+.dw-yt-link:hover { background: var(--gold); color: var(--ink); }
+.dw-yt-link svg { flex-shrink: 0; }
+.dw-badge {
+  background: var(--gold-light);
+  color: var(--ink);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  border: 1px solid var(--gold);
+  text-transform: uppercase;
+}
+
+/* ── FOOTER ── */
+.dw-footer {
+  border-top: 2px solid var(--ink);
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--paper);
+  margin-top: 80px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.dw-footer-copy { font-size: 0.8rem; color: var(--muted); }
+.dw-footer-yt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.dw-footer-yt:hover { color: var(--ink); }
+
+/* ── CONTAINER ── */
+.dw-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes dw-fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes dw-fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── HERO ── */
 .hero {
   text-align: center;
   padding: 64px 20px 48px;
   animation: dw-fadeDown 0.7s ease both;
 }
-
 .hero-eyebrow {
   font-size: 0.7rem;
   font-weight: 600;
@@ -22,7 +140,6 @@
   color: var(--muted);
   margin-bottom: 16px;
 }
-
 .hero h1 {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.4rem, 6vw, 4rem);
@@ -30,12 +147,7 @@
   line-height: 1.1;
   margin-bottom: 16px;
 }
-
-.hero h1 em {
-  color: var(--gold);
-  font-style: italic;
-}
-
+.hero h1 em { color: var(--gold); font-style: italic; }
 .hero-sub {
   color: var(--muted);
   font-size: 1rem;
@@ -43,7 +155,6 @@
   margin: 0 auto 28px;
   line-height: 1.7;
 }
-
 .hero-yt {
   display: inline-flex;
   align-items: center;
@@ -83,7 +194,6 @@
   gap: 24px;
   animation: dw-fadeUp 0.6s 0.3s ease both;
 }
-
 .tool-card {
   background: var(--paper);
   border: 2px solid var(--ink);
@@ -98,7 +208,6 @@
   position: relative;
   overflow: hidden;
 }
-
 .tool-card::after {
   content: '';
   position: absolute;
@@ -109,31 +218,11 @@
   transition: transform 0.25s;
   transform-origin: left;
 }
-
-.tool-card:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 8px 8px 0 var(--ink);
-}
+.tool-card:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--ink); }
 .tool-card:hover::after { transform: scaleX(1); }
-
-.tool-icon {
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.tool-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-}
-
-.tool-desc {
-  font-size: 0.88rem;
-  color: var(--muted);
-  line-height: 1.6;
-  flex: 1;
-}
-
+.tool-icon { font-size: 2rem; line-height: 1; }
+.tool-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; }
+.tool-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; flex: 1; }
 .tool-tag {
   display: inline-block;
   background: var(--gold-light);
@@ -146,25 +235,12 @@
   color: var(--ink);
   width: fit-content;
 }
-
-.tool-arrow {
-  font-size: 1.2rem;
-  color: var(--gold);
-  align-self: flex-end;
-  transition: transform 0.2s;
-}
+.tool-arrow { font-size: 1.2rem; color: var(--gold); align-self: flex-end; transition: transform 0.2s; }
 .tool-card:hover .tool-arrow { transform: translateX(4px); }
 
-/* ── COMING SOON CARD ── */
-.tool-card.coming-soon {
-  opacity: 0.55;
-  cursor: default;
-  pointer-events: none;
-}
-.tool-card.coming-soon .tool-tag {
-  background: var(--border);
-  border-color: var(--border);
-}
+/* ── COMING SOON ── */
+.tool-card.coming-soon { opacity: 0.55; cursor: default; pointer-events: none; }
+.tool-card.coming-soon .tool-tag { background: var(--border); border-color: var(--border); }
 
 /* ── STATS BAR ── */
 .stats-bar {
@@ -174,15 +250,8 @@
   animation: dw-fadeUp 0.6s 0.4s ease both;
   background: var(--paper);
 }
-
-.stat-item {
-  flex: 1;
-  padding: 20px;
-  text-align: center;
-  border-right: 2px solid var(--ink);
-}
+.stat-item { flex: 1; padding: 20px; text-align: center; border-right: 2px solid var(--ink); }
 .stat-item:last-child { border-right: none; }
-
 .stat-num {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
@@ -191,20 +260,21 @@
   line-height: 1;
   margin-bottom: 4px;
 }
+.stat-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); }
 
-.stat-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--muted);
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .dw-header { padding: 14px 18px; }
+  .dw-footer { padding: 18px; }
+  .dw-container { padding: 24px 14px; }
+  .dw-logo { font-size: 1.2rem; }
 }
-
 @media (max-width: 500px) {
   .stats-bar { flex-direction: column; }
   .stat-item { border-right: none; border-bottom: 2px solid var(--ink); }
   .stat-item:last-child { border-bottom: none; }
 }
+
 </style>
 </head>
 <body>
@@ -234,22 +304,20 @@
 
 <div class="dw-container">
 
-  <!-- TOOLS HEADING -->
   <div class="divider">
     <div class="divider-line"></div>
     <div class="divider-text">All Tools</div>
     <div class="divider-line"></div>
   </div>
 
-  <!-- TOOLS GRID -->
-  <!-- ════════════════════════════════════════════════════
-       নতুন tool add করতে চাইলে নিচের একটা tool-card
-       copy করো, href, icon, name, desc পরিবর্তন করো।
-       ব্যস — কাজ শেষ!
-  ════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════════
+       নতুন tool add করতে হলে নিচের একটা tool-card
+       copy করো — href, icon, name, desc বদলাও।
+       ব্যস, কাজ শেষ!
+  ═══════════════════════════════════════════════ -->
   <div class="tools-grid">
 
-    <!-- ── TOOL 1: CV Builder ── -->
+    <!-- TOOL 1: CV Builder (LIVE) -->
     <a href="tools/cv-builder.html" class="tool-card">
       <div class="tool-icon">📄</div>
       <div class="tool-name">CV & Cover Letter Builder</div>
@@ -258,7 +326,7 @@
       <div class="tool-arrow">→</div>
     </a>
 
-    <!-- ── TOOL 2: Coming Soon ── -->
+    <!-- TOOL 2: Coming Soon -->
     <div class="tool-card coming-soon">
       <div class="tool-icon">✍️</div>
       <div class="tool-name">Bio Generator</div>
@@ -267,7 +335,7 @@
       <div class="tool-arrow">→</div>
     </div>
 
-    <!-- ── TOOL 3: Coming Soon ── -->
+    <!-- TOOL 3: Coming Soon -->
     <div class="tool-card coming-soon">
       <div class="tool-icon">📱</div>
       <div class="tool-name">Caption & Post Writer</div>
@@ -276,7 +344,7 @@
       <div class="tool-arrow">→</div>
     </div>
 
-    <!-- ── TOOL 4: Coming Soon ── -->
+    <!-- TOOL 4: Coming Soon -->
     <div class="tool-card coming-soon">
       <div class="tool-icon">📧</div>
       <div class="tool-name">Email Writer</div>
@@ -286,7 +354,6 @@
     </div>
 
   </div>
-  <!-- ── END TOOLS GRID ── -->
 
   <!-- STATS -->
   <div class="stats-bar">
